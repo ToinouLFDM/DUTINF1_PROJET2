@@ -18,5 +18,7 @@ int main(int argc, char const *argv[])
 	affichePolynome(p);
 	ajouteMonomePolynome(m,&p);
 	affichePolynome(p);
+	ajoutePolynomePolynome(&p,&p);
+	affichePolynome(p);
 	return 0;
 }

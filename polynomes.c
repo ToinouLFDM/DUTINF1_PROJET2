@@ -184,41 +184,56 @@ void str2Polynome(char *str,Polynome *p)
     free(str2);
 }
 
+/******************************************************************************/
+/*  multiplieMonomePolynome- multiple le polynome par un monome               */
+/*                                                                            */
+/* INPUT  : un monome que l'on multiplie a un polynome                        */
+/* OUTPUT : néant car le polynome est un pointeur                             */
+/******************************************************************************/
 void multiplieMonomePolynome(Monome m,Polynome *p)
 {
-    if (p->nb_monomes==0)
+    if (p->nb_monomes==0)//si le nb de monomes est null ne fait rien
     {
         return;
     }
     int i=0, n=p->nb_monomes;
-    for(;i<n;i++)
-    {
+    for(;i<n;i++)//multiplie chaque coeff du polynome avec le coeff du monome 
+    {            //et ajoute le degre du monome a chaque degre du polynome
         p->tab_monomes[i].coeff*=m.coeff;
         p->tab_monomes[i].degre+=m.degre;
     }
 }
 
+/******************************************************************************/
+/*  ajouteMonomePolynome- ajoute un monome a un polynome                      */
+/*                                                                            */
+/* INPUT  : un monome que l'on aditionne a un polynome                        */
+/* OUTPUT : néant car le polynome est un pointeur                             */
+/******************************************************************************/
 void ajouteMonomePolynome(Monome m,Polynome *p)
 {
-    if (p->nb_monomes==0)
-    {
+    if (p->nb_monomes==0)//si le nb de monome est null , on l'augmente de 1 
+    {                    //et on ajoute le monome dans le tableau de monome a la case 0
         p->nb_monomes=1;
         p->tab_monomes[0]=m;
         return;
     }
     int i=0, n=p->nb_monomes;
-    while (i<n && p->tab_monomes[i].degre>=m.degre )
+    while (i<n && p->tab_monomes[i].degre>m.degre )//tant que le degre monome du polynome a l'indice i est superieur au degre du monome on incrémente i
     {
-        if(p->tab_monomes[i].degre==m.degre)
-        {
-            p->tab_monomes[i].coeff+=m.coeff;
-        }
+        
         i++;
     }
-    if(i<n || p->tab_monomes[i].degre<m.degre)
+    if(p->tab_monomes[i].degre==m.degre)//si le degre monome a du polynome a l'indice i est egal eu degre du monome 
+    {                                   
+        p->tab_monomes[i].coeff+=m.coeff;//on ajoute le coeff du monome au coeff du monome  al'indice i du polynome
+    }
+    else//sinon on insert a l'indice i le monome dans le tableau de monome du polynome
         insert_tab(p->tab_monomes,m,n,i);
 }
 
+
+//fonction pour inserer un monome a 'indce i' d'un tableau de monome
 void insert_tab(Monome tab[],Monome value,int max_tab,int position)
 {
     int i=position;
@@ -249,6 +264,8 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q)
         {
             
             ajouteMonomePolynome(q->tab_monomes[i], p); // on ajoute le monome d'indice i du polynome q au polynome p
+            printf("debug\n" );
+            affichePolynome(*p);
         }
     }
     else //si le nombre de monome de q est supérieur a celui de p
@@ -258,6 +275,8 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q)
         for ( i = 0; i <= stop; ++i) // tant que le compteur est inférieur a la valeur d'arret
         {
             ajouteMonomePolynome(p->tab_monomes[i], q); // on ajoute le monome d'indice i du polynome p au polynome q
+            printf("debug\n" );
+            affichePolynome(*p);
         }
 
     }
