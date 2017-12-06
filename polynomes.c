@@ -36,22 +36,26 @@ void affichePolynome(Polynome p)
     {
 
     	int coeff = p.tab_monomes[i].coeff;
-    	int degre = p.tab_monomes[i].degre;
+        int degre = p.tab_monomes[i].degre;
     	
-    	if(coeff!=0 )
+    	if(coeff!=0 )// n'afficche rien si le coefficent est egal à 0
     	{
-    		if ((coeff!=1 && coeff!=-1) || degre ==0 )
+            if (coeff>0 && i!=0)// affcihe un '+' devant le monome si le coeff est supérieur à O et si ce n'est pas le premier monome
+            {
+                printf("+");
+            }
+    		if ((coeff!=1 && coeff!=-1) || degre ==0 )//affiche le coeff si il est different de 1 et -1 ou si le degrée est egal à 0
     		{
     			printf("%d", coeff);
     		}
-            else if (coeff==-1)
+            else if (coeff<0)// affiche un '-' si on affiche pas le coeff et que le coeff est negatif
             {
                 printf("-" );
             }
-    		if (degre!=0 )
+    		if (degre!=0 )//affiche X si le degré est différent de 0
     		{
     			printf("X");
-    			if(degre!=1)
+    			if(degre!=1)//affiche le degré si il est différent de 0 et 1
     			{
     				printf("*%d",degre);
     			}
@@ -226,4 +230,35 @@ void insert_tab(Monome tab[],Monome value,int max_tab,int position)
     }
     tab[position].degre=value.degre;
     tab[position].coeff=value.coeff;
+}
+/******************************************************************************/
+/* ajoutePolynomePolynome - ajoute les polynomes fourni                       */
+/*                                                                            */
+/* INPUT  : deux polynome (pointeur) a ajouter l'un a l'autre                 */
+/* OUTPUT : néant pas besoin de return car ce sont des tableaux               */
+/******************************************************************************/
+
+void ajoutePolynomePolynome(Polynome *p, Polynome *q)
+{
+
+    if (p->nb_monomes > q->nb_monomes)
+    {
+        int stop=p->nb_monomes; //valeur d'arret
+        int i;
+        for(i=0;i<=stop;i++) // tant que le compteur est inférieur a la valeur d'arret
+        {
+            
+            ajouteMonomePolynome(q->tab_monomes[i], p); // on ajoute le monome d'indice i du polynome q au polynome p
+        }
+    }
+    else //si le nombre de monome de q est supérieur a celui de p
+    {
+        int stop=q->nb_monomes; //valeur d'arret
+        int i;
+        for ( i = 0; i <= stop; ++i) // tant que le compteur est inférieur a la valeur d'arret
+        {
+            ajouteMonomePolynome(p->tab_monomes[i], q); // on ajoute le monome d'indice i du polynome p au polynome q
+        }
+
+    }
 }
