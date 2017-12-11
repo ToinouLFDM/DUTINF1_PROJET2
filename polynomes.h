@@ -41,7 +41,8 @@ void multiplieMonomePolynome(Monome m,Polynome *p);
 void ajouteMonomePolynome(Monome m,Polynome *p);
 void insert_tab(Monome tab[],Monome value,int max_tab,int position);
 void ajoutePolynomePolynome(Polynome *p, Polynome *q);
-
+void reduitPolynomeTrie(Polynome *p);
+void delete_and_move(Polynome *p,int index );
 
 
 

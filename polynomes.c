@@ -31,7 +31,6 @@ void affichePolynome(Polynome p)
 {
     int i=0;
     int n = p.nb_monomes;
-    printf("%d\n",i);
     while(i<n)
     {
 
@@ -260,24 +259,62 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q)
     {
         int stop=p->nb_monomes; //valeur d'arret
         int i;
-        for(i=0;i<=stop;i++) // tant que le compteur est inférieur a la valeur d'arret
+        for(i=0;i<stop;i++) // tant que le compteur est inférieur a la valeur d'arret
         {
             
             ajouteMonomePolynome(q->tab_monomes[i], p); // on ajoute le monome d'indice i du polynome q au polynome p
-            printf("debug\n" );
-            affichePolynome(*p);
+            /*printf("debug\n" );
+            affichePolynome(*p);  DEBUG*/
         }
     }
     else //si le nombre de monome de q est supérieur a celui de p
     {
         int stop=q->nb_monomes; //valeur d'arret
         int i;
-        for ( i = 0; i <= stop; ++i) // tant que le compteur est inférieur a la valeur d'arret
+        for ( i = 0; i < stop; ++i) // tant que le compteur est inférieur a la valeur d'arret
         {
             ajouteMonomePolynome(p->tab_monomes[i], q); // on ajoute le monome d'indice i du polynome p au polynome q
-            printf("debug\n" );
-            affichePolynome(*p);
+            /*printf("debug\n" );
+            affichePolynome(*p);  DEBUG*/
         }
 
     }
+}
+
+
+/******************************************************************************/
+/* reduitPolynomeTrie - reduit le polynome trie fourmi                        */
+/*                                                                            */
+/* INPUT  : un polynome (pointeur) reduit pqr lq suite                        */
+/* OUTPUT : néant pas besoin de return car ce polynome modifie est un poimteur*/
+/******************************************************************************/
+void reduitPolynomeTrie(Polynome *p)
+{
+    int i=0; //initialise le compteur a zero
+    int n=p->nb_monomes-1;//imitialize le maximum d'iteratiom au mobre de monome-! 
+    for(;i<n;i++)//pour chaque monome dams le polynome
+    {
+        if(p->tab_monomes[i].degre==p->tab_monomes[i+1].degre)//verifie si le degre est identique a celui du monomes suivant
+        {
+            p->tab_monomes[i].coeff+=p->tab_monomes[i+1].coeff;//ajoute le coeff du monone suivant au monome actuel
+            delete_and_move(p,i+1);//enleve le monmome suivant et decale tout les monomes du tableau
+            n-=1;
+            
+        }
+    }
+
+}
+//fonction aui enleve le monmome suivant et decale tout les monomes du tableau
+void delete_and_move(Polynome *p,int index )
+{
+    p->nb_monomes-=1;
+    int n=p->nb_monomes;
+    for (;index<n;index++)
+    {
+        p->tab_monomes[index].coeff=p->tab_monomes[index+1].coeff;
+        p->tab_monomes[index].degre=p->tab_monomes[index+1].degre;
+
+    }
+    p->tab_monomes[index].degre=NULL;
+    p->tab_monomes[index].coeff=NULL;
 }

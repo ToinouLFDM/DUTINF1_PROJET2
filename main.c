@@ -20,5 +20,11 @@ int main(int argc, char const *argv[])
 	affichePolynome(p);
 	ajoutePolynomePolynome(&p,&p);
 	affichePolynome(p);
+	char *s2=" 1X^3 +3X^3 + 133X^2 - 1X^1 - 2X^1";
+	Polynome p2;
+	str2Polynome(s2,&p2);
+	affichePolynome(p2);
+	reduitPolynomeTrie(&p2);
+	affichePolynome(p2);
 	return 0;
 }
