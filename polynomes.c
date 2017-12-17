@@ -254,30 +254,10 @@ void insert_tab(Monome tab[],Monome value,int max_tab,int position)
 
 void ajoutePolynomePolynome(Polynome *p, Polynome *q)
 {
-
-    if (p->nb_monomes > q->nb_monomes)
-    {
-        int stop=p->nb_monomes; //valeur d'arret
-        int i;
-        for(i=0;i<stop;i++) // tant que le compteur est inférieur a la valeur d'arret
-        {
-            
-            ajouteMonomePolynome(q->tab_monomes[i], p); // on ajoute le monome d'indice i du polynome q au polynome p
-            /*printf("debug\n" );
-            affichePolynome(*p);  DEBUG*/
-        }
-    }
-    else //si le nombre de monome de q est supérieur a celui de p
-    {
-        int stop=q->nb_monomes; //valeur d'arret
-        int i;
-        for ( i = 0; i < stop; ++i) // tant que le compteur est inférieur a la valeur d'arret
-        {
-            ajouteMonomePolynome(p->tab_monomes[i], q); // on ajoute le monome d'indice i du polynome p au polynome q
-            /*printf("debug\n" );
-            affichePolynome(*p);  DEBUG*/
-        }
-
+    int i;
+    for(i=0;i<q->nb_monomes;i++) // tant que le compteur est inférieur a la valeur d'arret
+    {       
+        ajouteMonomePolynome(q->tab_monomes[i], p); // on ajoute le monome d'indice i du polynome q au polynome p
     }
 }
 
@@ -318,3 +298,5 @@ void delete_and_move(Polynome *p,int index )
     p->tab_monomes[index].degre=NULL;
     p->tab_monomes[index].coeff=NULL;
 }
+
+
