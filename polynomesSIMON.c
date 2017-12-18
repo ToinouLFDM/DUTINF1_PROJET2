@@ -58,5 +58,5 @@ void multipliePolynomePolynome(Polynome *p, Polynome *q)
         multiplieMonomePolynome(p->tab_monomes[i], q);  
         ajoutePolynomePolynome (&resultat, q);
     }
-    affichePolynome(resultat);
+affichePolynome(resultat);
 }
