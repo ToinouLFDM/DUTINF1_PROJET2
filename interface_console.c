@@ -45,13 +45,13 @@ void Menu()
 				afficher_les_variables(A,B,M);
 				break;
 			case 5:
-				
+				multiplier_par_monome(M,&A,&B);
 				break;
 			case 6:
-				
+				ajouter_monome_a_polynome(M,&A,&B);
 				break;
 			case 7:
-				
+				ajouter_polynome_a_polynome(&A,&B);
 				break;
 			case 8:
 				
@@ -63,7 +63,7 @@ void Menu()
 				
 				break;
 			case 11:
-				
+				reduire_le_polynome(&A,&B);
 				break;
 			case 12:
 				done = quitter();
@@ -71,6 +71,139 @@ void Menu()
 		}
 		printf("\n");
 	}
+}
+void multiplier_par_monome(Monome M,Polynome *A,Polynome *B)
+{
+	printf("Quel Polynome voulez vous multiplier par M  (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	if(M.coeff==0)
+		printf("ATTENTION votre coeff est nul ! \n");
+	if(s==a)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*A);
+		printf("\n");
+		multiplieMonomePolynome(M,A);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*A);
+	}
+	if(s==b)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*B);
+		printf("\n");
+		multiplieMonomePolynome(M,B);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*B);
+	}
+	printf("\n");
+
+}
+void ajouter_monome_a_polynome(Monome M,Polynome *A,Polynome *B)
+{
+	printf("Quel Polynome voulez vous ajouter M  (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	if(M.coeff==0)
+		printf("ATTENTION votre coeff est nul ! \n");
+	if(s==a)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*A);
+		printf("\n");
+		ajouteMonomePolynome(M,A);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*A);
+	}
+	if(s==b)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*B);
+		printf("\n");
+		ajouteMonomePolynome(M,B);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*B);
+	}
+	printf("\n");
+}
+void ajouter_polynome_a_polynome(Polynome *A,Polynome *B)
+{
+	printf("Quel Polynome voulez vous ajouter,l'autre sera modifié (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	if(s==a)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*B);
+		printf("\n");
+		ajoutePolynomePolynome(B,A);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*B);
+	}
+	if(s==b)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*A);
+		printf("\n");
+		ajoutePolynomePolynome(A,B);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*A);
+	}
+	printf("\n");
+}
+void reduire_le_polynome(Polynome *A,Polynome *B)
+{
+	printf("Quel Polynome voulez vous réduire (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	if(s==a)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*A);
+		printf("\n");
+		reduitPolynomeTrie(A);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*A);
+	}
+	if(s==b)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*B);
+		printf("\n");
+		reduitPolynomeTrie(B);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*B);
+	}
+	printf("\n");
 }
 void rentrer_polynome(Polynome *p)
 {
