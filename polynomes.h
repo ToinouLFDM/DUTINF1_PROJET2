@@ -31,7 +31,7 @@ typedef struct polynome {
 
 
 /******************************************************************************/
-/* PROTOTYPES                                                                 */
+/* PROTOTYPES polynome.c                                                      */
 /******************************************************************************/
 void initPolynome(Polynome *);
 void affichePolynome(Polynome);
@@ -44,9 +44,16 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q);
 void reduitPolynomeTrie(Polynome *p);
 void delete_and_move(Polynome *p,int index );
 
+/******************************************************************************/
+/* PROTOTYPES interface_console.c                                             */
+/******************************************************************************/
+void afficher_Menu();
+void Menu();
+void rentrer_polynome(Polynome *p);
+void rentrer_monome(Monome *M);
+void afficher_les_variables(Polynome A, Polynome B, Monome M);
 
-
-
+int quitter();
 
 
 
