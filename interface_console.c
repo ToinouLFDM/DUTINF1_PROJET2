@@ -54,13 +54,13 @@ void Menu()
 				ajouter_polynome_a_polynome(&A,&B);
 				break;
 			case 8:
-				
+				multiplier_polynome_par_polynome(&A,&B);
 				break;
 			case 9:
-				
+				puissance_polynome(&A,&B);
 				break;
 			case 10:
-				
+				trier_polynome(&A,&B);
 				break;
 			case 11:
 				reduire_le_polynome(&A,&B);
@@ -170,6 +170,105 @@ void ajouter_polynome_a_polynome(Polynome *A,Polynome *B)
 		ajoutePolynomePolynome(A,B);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*A);
+	}
+	printf("\n");
+}
+void multiplier_polynome_par_polynome(Polynome *A,Polynome *B)
+{
+	printf("Quel Polynome voulez vous multiplier,il sera modifié (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	if(s==a)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*A);
+		printf("\n");
+		//multipliePolynomePolynome(A,B);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*A);
+	}
+	if(s==b)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*B);
+		printf("\n");
+		//multipliePolynomePolynome(B,A);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*B);
+	}
+	printf("\n");
+}
+void puissance_polynome(Polynome *A,Polynome *B)
+{
+	printf("Quel Polynome voulez vous mettre a une puissance (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	int value;
+	printf("Entrez une puissance\n");
+	scanf("%d",&value);
+	if(s==a)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*A);
+		printf("\n");
+		//puissancePolynome(A,value);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*A);
+	}
+	if(s==b)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*B);
+		printf("\n");
+		//puissancePolynome(B,value);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*B);
+	}
+	printf("\n");
+}
+void trier_polynome(Polynome *A,Polynome *B)
+{
+	printf("Quel Polynome voulez vous Trier? (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	if(s==a)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*A);
+		printf("\n");
+		//triePolynome(A);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*A);
+	}
+	if(s==b)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*B);
+		printf("\n");
+		//triePolynome(B);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*B);
 	}
 	printf("\n");
 }

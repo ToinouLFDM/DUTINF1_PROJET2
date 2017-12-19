@@ -54,8 +54,11 @@ void rentrer_monome(Monome *M);
 void afficher_les_variables(Polynome A, Polynome B, Monome M);
 void multiplier_par_monome(Monome M,Polynome *A,Polynome *B);
 void ajouter_monome_a_polynome(Monome M,Polynome *A,Polynome *B);
+void multiplier_polynome_par_polynome(Polynome *A,Polynome *B);
 void ajouter_polynome_a_polynome(Polynome *A,Polynome *B);
+void puissance_polynome(Polynome *A,Polynome *B);
 void reduire_le_polynome(Polynome *A,Polynome *B);
+void trier_polynome(Polynome *A,Polynome *B);
 int quitter();
 
 
