@@ -67,7 +67,7 @@ void Menu()
 				reduire_le_polynome(&A,&B);
 				break;
 			case 12:
-				dessiner_polynome(A);
+				dessiner_polynome(A,B);
 				break;
 			case 13:
 				done = quitter();
@@ -435,24 +435,53 @@ void dessiner_polynome(Polynome p)
 #define M 255
  
 /* This is where we'll store the pixels */
-uint8_t r[H][W], g[H][W], b[H][W];
- 
+uint8_t r[H+1][W], g[H+1][W], b[H+1][W];
+ void create_abs_ord ()
+ {
+ 	for ( int x=0; x<W; x++ )
+ 	{
+		int y= H/2;
+		r[y][x] = 255, g[y][x] = 255, b[y][x] = 255;
+	}
+	for( int y=0; y<W; y++ )
+	{
+		int x= W/2;
+		r[y][x] = 255, g[y][x] = 255, b[y][x] = 255;
+	}
+ }
 /* Draw a full 2*pi period of the sine */
 void create_image ( Polynome p )
 {
+	for ( int x=W/2; x>=0; x-- )
+	{
+		int n=p.nb_monomes;
+		int j=0;
+		int y=0;
+		for(;j<n;j++)
+			y+=(H/2)-(p.tab_monomes[j].coeff*puissance(x-W/2,p.tab_monomes[j].degre))/(W/2);
+		if(y>H || y<0)
+        	y=H;
+        r[y][x] = 255, g[y][x] = 255, b[y][x] = 255;
+	}
     /* Run the width of the image */
-    for ( int x=W-1; x>=0; x-- )
+    for ( int x=W/2; x<W; x++ )
     {
         /* Scale the wave to the image height */
         /*int n=p.nb_monomes;
-        int j=0;
+        int j=0; à 
         int y=0;
         for(;j<n;j++)
         {
         	if(y+ H/2 + (H/2) * p.tab_monomes[j].coeff*puissance(x,p.tab_monomes[j].degre)< H)
         		y +=H/2 + (H/2) * p.tab_monomes[j].coeff*puissance(x,p.tab_monomes[j].degre);
         }*/
-        int y=(H/2)-((x*x)/W)/2;
+        int n=p.nb_monomes;
+		int j=0;
+		int y=0;
+		for(;j<n;j++)
+			y+=(H/2)-(p.tab_monomes[j].coeff*puissance(x-W/2,p.tab_monomes[j].degre))/(W/2);
+        if(y>H || y<0)
+        	y=H;
         r[y][x] = 255, g[y][x] = 255, b[y][x] = 255;
     }
 }
@@ -482,8 +511,35 @@ void write_ppm ( const char *filename )
 }
  
 /* Make the picture, store it, and go home */
-void dessiner_polynome (Polynome p)
+void dessiner_polynome (Polynome A,Polynome B)
 {
-    create_image(p);
-    write_ppm ( "sine.ppm" );
+	printf("Quel Polynome voulez vous dessiner? (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	if(s==a)
+	{
+		create_abs_ord();
+		write_ppm ( "sine.ppm" );
+		printf("Le Polynome A a été dessiné!\n");
+		printf("Pour le voir ouvrrez l'image .ppm");
+		create_image(A);
+    	write_ppm ( "sine.ppm" );
+	}
+	if(s==b)
+	{	create_abs_ord();
+		write_ppm ( "sine.ppm" );
+		printf("Le Polynome B a été dessiné!\n");
+		printf("Pour le voir ouvrrez l'image .ppm");
+		create_image(B);
+    	write_ppm ( "sine.ppm" );
+	}
+	printf("\n");
+    
 }
