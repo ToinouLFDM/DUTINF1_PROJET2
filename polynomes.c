@@ -228,7 +228,11 @@ void ajouteMonomePolynome(Monome m,Polynome *p)
         p->tab_monomes[i].coeff+=m.coeff;//on ajoute le coeff du monome au coeff du monome  al'indice i du polynome
     }
     else//sinon on insert a l'indice i le monome dans le tableau de monome du polynome
-        insert_tab(p->tab_monomes,m,n,i);
+    {
+        p->nb_monomes+=1;
+        insert_tab(p->tab_monomes,m,n+1,i);
+        
+    }
 }
 
 
@@ -236,14 +240,21 @@ void ajouteMonomePolynome(Monome m,Polynome *p)
 void insert_tab(Monome tab[],Monome value,int max_tab,int position)
 {
     int i=position;
-    while (i<(max_tab-1) )
+    Monome tmp;
+    Monome new_tmp;
+    tmp.degre=value.degre;
+    tmp.coeff=value.coeff;
+    while (i<max_tab )
     {
-        tab[i+1].degre=tab[i].degre;
-        tab[i+1].coeff=tab[i].coeff;
+        new_tmp.degre=tmp.degre;
+        new_tmp.coeff=tmp.coeff;
+        tmp.degre=tab[i].degre;
+        tmp.coeff=tab[i].coeff;
+        tab[i].degre=new_tmp.degre;
+        tab[i].coeff=new_tmp.coeff;
+
         i++;
     }
-    tab[position].degre=value.degre;
-    tab[position].coeff=value.coeff;
 }
 /******************************************************************************/
 /* ajoutePolynomePolynome - ajoute les polynomes fourni                       */

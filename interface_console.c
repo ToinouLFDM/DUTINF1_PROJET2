@@ -14,7 +14,8 @@ void afficher_Menu()
 	printf("9.  Calcul de puissance d'un Polynome\n");
 	printf("10. Trier un Polynome\n");
 	printf("11. Reduire Un Polynome\n");
-	printf("12. Quittez le programme\n");
+	printf("12. Dessiner un Polynome\n");
+	printf("13. Quittez le programme\n");
 }
 
 void Menu()
@@ -66,6 +67,9 @@ void Menu()
 				reduire_le_polynome(&A,&B);
 				break;
 			case 12:
+				dessiner_polynome(A);
+				break;
+			case 13:
 				done = quitter();
 				break;
 		}
@@ -388,4 +392,98 @@ int quitter()
 
 	}
 	return done;
+}
+float puissance(float x,int n )
+{
+	int i=1;
+	int res=0;
+	if(n>=1)
+	{
+	res=x;
+		for(;i<n;i++)
+		{
+			res*=x;
+		}
+	}
+	return res;	
+}/*
+void dessiner_polynome(Polynome p)
+{
+	int value;
+	printf("donner une valeur pour l'echelle \n");
+	scanf("%d",value);
+	int i=0;
+	for(;i<10;i++)
+	{
+		float tab[10]={0};
+		j=0;;
+		n=p.nb_monomes;
+		for(;j<n;j++)
+			tab[10]+=(float)p.tab_monomes[j].coeff*(puissance(i*value,p.tab_monomes[j].degre));
+	}
+	for(i=0;i<40;i++)
+	{
+		for(j=0;j<40;j++)
+		{
+
+		}
+	}
+}*/
+/* Image parameters */
+#define W 320
+#define H 320
+#define M 255
+ 
+/* This is where we'll store the pixels */
+uint8_t r[H][W], g[H][W], b[H][W];
+ 
+/* Draw a full 2*pi period of the sine */
+void create_image ( Polynome p )
+{
+    /* Run the width of the image */
+    for ( int x=W-1; x>=0; x-- )
+    {
+        /* Scale the wave to the image height */
+        /*int n=p.nb_monomes;
+        int j=0;
+        int y=0;
+        for(;j<n;j++)
+        {
+        	if(y+ H/2 + (H/2) * p.tab_monomes[j].coeff*puissance(x,p.tab_monomes[j].degre)< H)
+        		y +=H/2 + (H/2) * p.tab_monomes[j].coeff*puissance(x,p.tab_monomes[j].degre);
+        }*/
+        int y=(H/2)-((x*x)/W)/2;
+        r[y][x] = 255, g[y][x] = 255, b[y][x] = 255;
+    }
+}
+ 
+/* Write the ppm-formatted file */
+void write_ppm ( const char *filename )
+{
+    FILE *out = fopen ( filename, "w" );
+    /* Header:
+     * Magic number, width, height, maxvalue
+     */
+    fprintf ( out, "P6 %d %d %d\n", W, H, M );
+    /* Rows. 2-byte values if max > 255, 1-byte otherwise.
+     * These loops explicitly show where every single byte
+     * goes; in practice, it would be faster and shorter to
+     * interleave the arrays and write bigger blocks of
+     * contiguous data.
+     */
+    for ( size_t i=0; i<H; i++ )
+        for ( size_t j=0; j<W; j++ )
+        {
+            fwrite ( &r[i][j], sizeof(uint8_t), 1, out ); /* Red */
+            fwrite ( &g[i][j], sizeof(uint8_t), 1, out ); /* Green */
+            fwrite ( &b[i][j], sizeof(uint8_t), 1, out ); /* Blue */
+        }
+    fclose ( out );
+}
+ 
+/* Make the picture, store it, and go home */
+void dessiner_polynome (Polynome p)
+{
+    create_image(p);
+    write_ppm ( "sine.ppm" );
 }

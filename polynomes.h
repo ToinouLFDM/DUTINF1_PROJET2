@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <math.h>
 
 #define MAXMONOME 50
 
@@ -59,6 +61,7 @@ void ajouter_polynome_a_polynome(Polynome *A,Polynome *B);
 void puissance_polynome(Polynome *A,Polynome *B);
 void reduire_le_polynome(Polynome *A,Polynome *B);
 void trier_polynome(Polynome *A,Polynome *B);
+void dessiner_polynome (Polynome p);
 int quitter();
 
 
