@@ -273,6 +273,8 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q)
 }
 
 
+
+
 /******************************************************************************/
 /* reduitPolynomeTrie - reduit le polynome trie fourmi                        */
 /*                                                                            */
@@ -309,5 +311,4 @@ void delete_and_move(Polynome *p,int index )
     p->tab_monomes[index].degre=NULL;
     p->tab_monomes[index].coeff=NULL;
 }
-
 
