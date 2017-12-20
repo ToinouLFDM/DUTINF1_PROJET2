@@ -61,7 +61,7 @@ void ajouter_polynome_a_polynome(Polynome *A,Polynome *B);
 void puissance_polynome(Polynome *A,Polynome *B);
 void reduire_le_polynome(Polynome *A,Polynome *B);
 void trier_polynome(Polynome *A,Polynome *B);
-void dessiner_polynome (Polynome A, Polynome B);
+void dessiner_polynome (Polynome A, Polynome B,int *);
 int quitter();
 
 

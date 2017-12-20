@@ -26,6 +26,7 @@ void Menu()
 	initPolynome(&A);
 	initPolynome(&B);
 	Monome M={0,0};
+	int compteur;
 	while (!done)
 	{
 		afficher_Menu();
@@ -67,7 +68,7 @@ void Menu()
 				reduire_le_polynome(&A,&B);
 				break;
 			case 12:
-				dessiner_polynome(A,B);
+				dessiner_polynome(A,B, &compteur);
 				break;
 			case 13:
 				done = quitter();
@@ -452,6 +453,7 @@ uint8_t r[H+1][W], g[H+1][W], b[H+1][W];
 /* Draw a full 2*pi period of the sine */
 void create_image ( Polynome p )
 {
+	int scale=p.tab_monomes[0].degre;
 	for ( int x=W/2; x>=0; x-- )
 	{
 		int n=p.nb_monomes;
@@ -509,14 +511,27 @@ void write_ppm ( const char *filename )
         }
     fclose ( out );
 }
- 
-/* Make the picture, store it, and go home */
-void dessiner_polynome (Polynome A,Polynome B)
+void effacer()
 {
+	for ( int x=0; x<W; x++ )
+ 	{
+ 		for( int y=0; y<W; y++ )
+		{
+		r[y][x] = 0, g[y][x] = 0, b[y][x] = 0;
+		}
+	}
+	
+}		
+/* Make the picture, store it, and go home */
+void dessiner_polynome (Polynome A,Polynome B,int *compteur)
+{
+	*compteur+=1;
 	printf("Quel Polynome voulez vous dessiner? (A/B)\n");
 	char s =' ';
 	char a ='A';
 	char b ='B';
+	char filename[30];
+	sprintf(filename,"fonction_%d.ppm",*compteur);
 	while (s!=a && s!=b)
 	{
 		scanf("%c",&s);
@@ -526,20 +541,21 @@ void dessiner_polynome (Polynome A,Polynome B)
 	if(s==a)
 	{
 		create_abs_ord();
-		write_ppm ( "sine.ppm" );
+		write_ppm ( filename );
 		printf("Le Polynome A a été dessiné!\n");
 		printf("Pour le voir ouvrrez l'image .ppm");
 		create_image(A);
-    	write_ppm ( "sine.ppm" );
+    	write_ppm ( filename );
 	}
 	if(s==b)
 	{	create_abs_ord();
-		write_ppm ( "sine.ppm" );
+		write_ppm ( filename);
 		printf("Le Polynome B a été dessiné!\n");
 		printf("Pour le voir ouvrrez l'image .ppm");
 		create_image(B);
-    	write_ppm ( "sine.ppm" );
+    	write_ppm ( filename );
 	}
+	effacer();
 	printf("\n");
     
 }
