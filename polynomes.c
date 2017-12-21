@@ -56,7 +56,7 @@ void affichePolynome(Polynome p)
     			printf("X");
     			if(degre!=1)//affiche le degré si il est différent de 0 et 1
     			{
-    				printf("*%d",degre);
+    				printf("^%d",degre);
     			}
     		}
     	}

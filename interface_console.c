@@ -463,7 +463,7 @@ void create_image ( Polynome p )
 			y+=(H/2)-(p.tab_monomes[j].coeff*puissance(x-W/2,p.tab_monomes[j].degre))/(W/2);
 		if(y>H || y<0)
         	y=H;
-        r[y][x] = 255, g[y][x] = 255, b[y][x] = 255;
+        r[y][x] = 255, g[y][x] = 255, b[y][x] = 0;
 	}
     /* Run the width of the image */
     for ( int x=W/2; x<W; x++ )
@@ -484,7 +484,7 @@ void create_image ( Polynome p )
 			y+=(H/2)-(p.tab_monomes[j].coeff*puissance(x-W/2,p.tab_monomes[j].degre))/(W/2);
         if(y>H || y<0)
         	y=H;
-        r[y][x] = 255, g[y][x] = 255, b[y][x] = 255;
+        r[y][x] = 255, g[y][x] = 255, b[y][x] = 0;
     }
 }
  
