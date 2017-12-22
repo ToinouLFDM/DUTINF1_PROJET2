@@ -326,8 +326,7 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
         if(i<p->nb_monomes && e<q->nb_monomes)
         {
             if (q->tab_monomes[e].degre < p->tab_monomes[i].degre)
-            {                  
-                printf("%d\n", q->tab_monomes[i].degre);  
+            {                   
                 resultat.tab_monomes[f] = p->tab_monomes[i];
                 i ++;
                 f++;
@@ -335,7 +334,6 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
             }
             else if(p->tab_monomes[i].degre < q->tab_monomes[e].degre)
             { 
-                printf("%d\n", p->tab_monomes[i].degre);  
                 resultat.tab_monomes[f] = q->tab_monomes[e];
                 e++;
                 f++;
@@ -343,7 +341,6 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
             }                
             else if (p->tab_monomes[i].degre == q->tab_monomes[e].degre)
            {
-                printf("%d\n", p->tab_monomes[i].degre);
                 monome_etape.coeff = p->tab_monomes[i].coeff + q->tab_monomes[e].coeff;
                 monome_etape.degre = p->tab_monomes[i].degre;
                 resultat.tab_monomes[f] = monome_etape;
@@ -355,7 +352,6 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
         }      
         else if (i == p->nb_monomes && e < q->nb_monomes)
         {
-            printf("%d\n", q->tab_monomes[i].degre);  
             resultat.tab_monomes[f] = q->tab_monomes[e];
             e++;
             f++;
@@ -363,7 +359,6 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
         }
         else if(e == q->nb_monomes && i < p->nb_monomes)
         {
-            printf("%d\n", p->tab_monomes[i].degre); 
             resultat.tab_monomes[f] = p->tab_monomes[i];
             i++;
             f++;
@@ -386,8 +381,8 @@ Polynome multipliePolynomePolynome(Polynome *p, Polynome *q)
         printf("%d\n", i );
         resultat.tab_monomes[i].coeff=0;
         multiplieMonomePolynome(p->tab_monomes[i], q);  
-        ajoutePolynomePolynome2(&resultat, q);
-       
+        resultat = ajoutePolynomePolynome2(&tampon, q);
+
     }
 return resultat;
 
