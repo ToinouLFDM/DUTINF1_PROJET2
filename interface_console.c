@@ -172,7 +172,7 @@ void ajouter_polynome_a_polynome(Polynome *A,Polynome *B)
 		printf("Le Polynome valait ->");
 		affichePolynome(*B);
 		printf("\n");
-		ajoutePolynomePolynome(A,B);
+		ajoutePolynomePolynome(B,A);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*B);
 	}

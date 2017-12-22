@@ -270,34 +270,39 @@ void insert_tab(Monome tab[],Monome value,int max_tab,int position)
 void ajoutePolynomePolynome(Polynome *p, Polynome *q)
 {
     int i;
+    Polynome tmp=*p;
     for(i=0;i<q->nb_monomes;i++) // tant que le compteur est inférieur a la valeur d'arret
     {       
         ajouteMonomePolynome(q->tab_monomes[i], p); // on ajoute le monome d'indice i du polynome q au polynome p
+    }
+    if(p->nb_monomes>50) // cas d'arret
+    {
+        *p=tmp;
+        printf("ERROR : Le resultat contient un nombre de monome supérieur a 50, le poynome est inchangé \n");
     }
 }
 
 
 /******************************************************************************/
-/* TriPolynome - tri le polynome fourmi                                       */
+/* triPolynome - Tri le polynome fourni                                       */
 /*                                                                            */
-/* INPUT  : un polynome (pointeur) trié par la suite                          */
-/* OUTPUT : néant pas besoin de return car ce polynome modifie est un poimteur*/
+/* INPUT  : un polynome (pointeur) a trier                                    */
+/* OUTPUT : néant pas besoin de return car c'est un pointeur que l'on modifie */
 /******************************************************************************/
-
 void triPolynome(Polynome *p)
 {
     int i=0, max=0;
     int n=p->nb_monomes;
-    for(;i<(n-1);i++)
+    for(;i<(n-1);i++)//on parcours le tableau de i a n
     {
-        max=i;
+        max=i;//on attribue la valeur max a i
         int j;
-        for(j=i+1;j<n;j++)
+        for(j=i+1;j<n;j++)//on parcours le tableau de i a n (on trouve la plus grande valeur de i a n)
         {
-            if(p->tab_monomes[j].degre>p->tab_monomes[max].degre)
+            if(p->tab_monomes[j].degre>p->tab_monomes[max].degre)//si la valeur en j est plus grande que la valeur en i, j est attribué a j
                 max=j;
         }
-        if(max!=j)
+        if(max!=i)//si max est différent i on swap t[i] et t[max]
         {
             Monome tmp={p->tab_monomes[i].coeff,p->tab_monomes[i].degre};
             p->tab_monomes[i].coeff=p->tab_monomes[max].coeff;
@@ -344,8 +349,8 @@ void delete_and_move(Polynome *p,int index )
         p->tab_monomes[index].degre=p->tab_monomes[index+1].degre;
 
     }
-    p->tab_monomes[index].degre=NULL;
-    p->tab_monomes[index].coeff=NULL;
+    p->tab_monomes[index].degre=0;
+    p->tab_monomes[index].coeff=0;
 }
 
 /******************************************************************************/
@@ -440,6 +445,11 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
             f++;
             resultat.nb_monomes ++;           
         }
+    }
+    if(resultat.nb_monomes>50) // cas d'arret
+    {
+        resultat=*p;
+        printf("ERROR : Le resultat contient un nombre de monome supérieur a 50, le poynome est inchangé \n");
     }
     return resultat;
 }
