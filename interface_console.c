@@ -453,14 +453,19 @@ uint8_t r[H+1][W], g[H+1][W], b[H+1][W];
 /* Draw a full 2*pi period of the sine */
 void create_image ( Polynome p )
 {
-	int scale=p.tab_monomes[0].degre;
+	float scale;
+	if(p.tab_monomes[0].degre==1)
+		scale=1;
+	else
+		scale=W*puissance((p.tab_monomes[0].degre-1),(p.tab_monomes[0].degre-1));
+
 	for ( int x=W/2; x>=0; x-- )
 	{
 		int n=p.nb_monomes;
 		int j=0;
 		int y=0;
 		for(;j<n;j++)
-			y+=(H/2)-(p.tab_monomes[j].coeff*puissance(x-W/2,p.tab_monomes[j].degre))/(W/2);
+			y+=(H/2)-(p.tab_monomes[j].coeff*puissance(x-W/2,p.tab_monomes[j].degre))/scale;
 		if(y>H || y<0)
         	y=H;
         r[y][x] = 255, g[y][x] = 255, b[y][x] = 0;
@@ -481,7 +486,7 @@ void create_image ( Polynome p )
 		int j=0;
 		int y=0;
 		for(;j<n;j++)
-			y+=(H/2)-(p.tab_monomes[j].coeff*puissance(x-W/2,p.tab_monomes[j].degre))/(W/2);
+			y+=(H/2)-(p.tab_monomes[j].coeff*puissance(x-W/2,p.tab_monomes[j].degre))/scale;
         if(y>H || y<0)
         	y=H;
         r[y][x] = 255, g[y][x] = 255, b[y][x] = 0;
