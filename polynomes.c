@@ -275,6 +275,15 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q)
         ajouteMonomePolynome(q->tab_monomes[i], p); // on ajoute le monome d'indice i du polynome q au polynome p
     }
 }
+
+
+/******************************************************************************/
+/* TriPolynome - tri le polynome fourmi                                       */
+/*                                                                            */
+/* INPUT  : un polynome (pointeur) trié par la suite                          */
+/* OUTPUT : néant pas besoin de return car ce polynome modifie est un poimteur*/
+/******************************************************************************/
+
 void triPolynome(Polynome *p)
 {
     int i=0, max=0;
@@ -305,7 +314,7 @@ void triPolynome(Polynome *p)
 /******************************************************************************/
 /* reduitPolynomeTrie - reduit le polynome trie fourmi                        */
 /*                                                                            */
-/* INPUT  : un polynome (pointeur) reduit pqr lq suite                        */
+/* INPUT  : un polynome (pointeur) reduit par la suite                        */
 /* OUTPUT : néant pas besoin de return car ce polynome modifie est un poimteur*/
 /******************************************************************************/
 void reduitPolynomeTrie(Polynome *p)
@@ -339,6 +348,12 @@ void delete_and_move(Polynome *p,int index )
     p->tab_monomes[index].coeff=NULL;
 }
 
+/******************************************************************************/
+/* ajoutePolynomePolynome - ajoute deux polynome trié                         */
+/*                                                                            */
+/* INPUT  : deux polynome (pointeur) trié                                     */
+/* OUTPUT : renvoie un Polynome résultat                                      */
+/******************************************************************************/
 Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m marche nikel 
 {   
     int i = 0;
@@ -348,7 +363,7 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
     Monome monome_etape;
     initPolynome(&resultat);
 
-
+//on vérifie si le polynome et bien trié
     int is_sortp=0;
     int is_sortq=0;
     printf("Le Polynome A est trié?\n");
@@ -382,7 +397,7 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
     if(!is_sortq)
         triPolynome(q);
 
-    while  (i<p->nb_monomes || e<q->nb_monomes)
+    while  (i<p->nb_monomes || e<q->nb_monomes) // chaque if corespond à une éventualité  et on incrémente le compteur i quand un monome de p est insérer et e quand un monome de q est insérer
     {
         if(i<p->nb_monomes && e<q->nb_monomes)
         {
@@ -429,6 +444,13 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
     return resultat;
 }
 
+
+/******************************************************************************/
+/* multipliePolynomePolynome - multiplie deux polynome entre eux              */
+/*                                                                            */
+/* INPUT  : deux polynome (pointeur) et un pointeur stop si nb.monome <= 50   */
+/* OUTPUT : renvoi un polynome résultat                                       */
+/******************************************************************************/
 Polynome multipliePolynomePolynome(Polynome *p, Polynome *q,int *stop)
 {
     Polynome resultat;
@@ -437,7 +459,7 @@ Polynome multipliePolynomePolynome(Polynome *p, Polynome *q,int *stop)
     int i=0,j=0;
     while ( i < p->nb_monomes && resultat.nb_monomes<= 50) // tant que le compteur est inférieur a la valeur d'arret
     {
-        while(j<q->nb_monomes && resultat.nb_monomes<=50)
+        while(j<q->nb_monomes && resultat.nb_monomes<=50) //pour chaque monome de p on parcour tout les monome de q
         {
             tmp.degre=q->tab_monomes[j].degre+p->tab_monomes[i].degre;
             tmp.coeff=q->tab_monomes[j].coeff*p->tab_monomes[i].coeff;
@@ -448,7 +470,7 @@ Polynome multipliePolynomePolynome(Polynome *p, Polynome *q,int *stop)
         j=0;
         i+=1;
     }
-    if(resultat.nb_monomes>50)
+    if(resultat.nb_monomes>50) // cas d'arret
     {
         resultat=*p;
         *stop=1;
@@ -458,24 +480,31 @@ return resultat;
 
 }
 
+
+/******************************************************************************/
+/* puissancePolynome - reduit le polynome trie fourmi                         */
+/*                                                                            */
+/* INPUT  : un polynome (pointeur) et un int corespondant a la puissance      */
+/* OUTPUT : renvoie un polynome résultat                                      */
+/******************************************************************************/
 Polynome puissancePolynome(Polynome *p,int n)
 {
     Polynome resultat;
     initPolynome(&resultat);
     int i = 1;
-    if (n == 0)
+    if (n == 0) // la puissance de 0 donne toujours 1
     {
         resultat.nb_monomes = 1;
         resultat.tab_monomes[0].degre = 0;
         resultat.tab_monomes[0].coeff = 1;
     }
 
-    if (n >= 1)
+    if (n >= 1) //on initialise résultat à la valeur de p
     {
         resultat= *p;
     }
     int stop=0;
-    while(i < n && !stop)
+    while(i < n && !stop) // Pour i allant de 1 a n on multiplie résultat par p
     {
         resultat = multipliePolynomePolynome(&resultat, p, &stop);
         i++; 
