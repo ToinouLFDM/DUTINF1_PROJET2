@@ -11,7 +11,7 @@
 /* OUTPUT : néant pas besoin de return car ce sont des tableaux               */
 /******************************************************************************/
 
-void ajoutePolynomePolynome(Polynome *p, Polynome *q)
+void ajoutePolynomePolynome(Polynome *p, Polynome *q) //complexité (n+m)^2
 {
 	int i;
 	for(i=0;i<=q->nb_monomes;i++) // tant que le compteur est inférieur a la valeur d'arret
@@ -27,105 +27,82 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q)
 /* OUTPUT : renvoi un polynome résultat                                       */
 /******************************************************************************/
 
-Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q)
+Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m marche nikel 
 {   
     int i = 0;
     int e = 0;
     int f = 0;
-
     Polynome resultat;
-    initPolynome(&resultat);
     Monome monome_etape;
+    initPolynome(&resultat);
 
     while  (i<p->nb_monomes || e<q->nb_monomes)
     {
         if(i<p->nb_monomes && e<q->nb_monomes)
         {
-            if (q->tab_monomes[e].degre < p->tab_monomes[e].degre)
-            {   
-                resultat.nb_monomes ++;
-                printf("marche1\n");
-                resultat.tab_monomes[f] = q->tab_monomes[e];
-                e ++;        
-            }
-           if(p->tab_monomes[i].degre < q->tab_monomes[e].degre)
-            { 
-                resultat.nb_monomes ++;
-                printf("marche2\n");
+            if (q->tab_monomes[e].degre < p->tab_monomes[i].degre)
+            {                  
+                printf("%d\n", q->tab_monomes[i].degre);  
                 resultat.tab_monomes[f] = p->tab_monomes[i];
-                i++;
-               
-                
-            }                
-            if (p->tab_monomes[i].degre == q->tab_monomes[e].degre)
-           {
-                printf("marche3\n");
+                i ++;
+                f++;
                 resultat.nb_monomes ++;
+            }
+            else if(p->tab_monomes[i].degre < q->tab_monomes[e].degre)
+            { 
+                printf("%d\n", p->tab_monomes[i].degre);  
+                resultat.tab_monomes[f] = q->tab_monomes[e];
+                e++;
+                f++;
+                resultat.nb_monomes ++;                
+            }                
+            else if (p->tab_monomes[i].degre == q->tab_monomes[e].degre)
+           {
+                printf("%d\n", p->tab_monomes[i].degre);
                 monome_etape.coeff = p->tab_monomes[i].coeff + q->tab_monomes[e].coeff;
                 monome_etape.degre = p->tab_monomes[i].degre;
                 resultat.tab_monomes[f] = monome_etape;
-                
                 i++;
-                e++;
-                
-                
+                e++;                
+                f++;
+                resultat.nb_monomes ++;
             }
-            f++;
-
         }      
-        if (i == p->nb_monomes && e < q->nb_monomes)
+        else if (i == p->nb_monomes && e < q->nb_monomes)
         {
-            resultat.nb_monomes ++;
-            printf("marche4\n");
+            printf("%d\n", q->tab_monomes[i].degre);  
             resultat.tab_monomes[f] = q->tab_monomes[e];
             e++;
             f++;
-            
-          
+            resultat.nb_monomes ++;          
         }
-        if(e == q->nb_monomes && i < p->nb_monomes)
+        else if(e == q->nb_monomes && i < p->nb_monomes)
         {
-            resultat.nb_monomes ++;
-            printf("marche5\n");
+            printf("%d\n", p->tab_monomes[i].degre); 
             resultat.tab_monomes[f] = p->tab_monomes[i];
             i++;
             f++;
-            
-           
+            resultat.nb_monomes ++;           
         }
     }
     return resultat;
 }
-//void ajoutePolynomePolynome2(Polynome *p, polynome q)
-//{
-//int compteur
-//Pokynome somme
-//initPolynome(somme)
-//somme = *poly1
-//somme.nb_monomes = poly1 -> nb_monomes + poly.nb_monomes;
-//for(curseur = poly1->nb_monome; curseur < somme.nb_monome; curseur ++)
-    //some.tab_monomes[curseur ] = p.tab_monome[cureseur - q->nb_monome];
- //*poly1 = somme;
-//}
-
-
 
 Polynome multipliePolynomePolynome(Polynome *p, Polynome *q)
 {
-    printf("salut\n");
     Polynome resultat;
     Polynome tampon;
     initPolynome(&resultat);
+    resultat.nb_monomes = p->nb_monomes;
 
     int i;
     for ( i = 0; i < q->nb_monomes && resultat.nb_monomes<= 50 ; i++) // tant que le compteur est inférieur a la valeur d'arret
     {
         printf("%d\n", i );
-        resultat.nb_monomes += q->nb_monomes;
+        resultat.tab_monomes[i].coeff=0;
         multiplieMonomePolynome(p->tab_monomes[i], q);  
         ajoutePolynomePolynome2(&resultat, q);
+        
        
     }
- return resultat;
-affichePolynome(resultat);
-}
+return resultat;
