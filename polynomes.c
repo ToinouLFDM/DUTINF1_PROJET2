@@ -319,7 +319,7 @@ void reduitPolynomeTrie(Polynome *p)
             p->tab_monomes[i].coeff+=p->tab_monomes[i+1].coeff;//ajoute le coeff du monone suivant au monome actuel
             delete_and_move(p,i+1);//enleve le monmome suivant et decale tout les monomes du tableau
             n-=1;
-            i-=1;
+             i-=1;
         }
     }
 
@@ -347,6 +347,40 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
     Polynome resultat;
     Monome monome_etape;
     initPolynome(&resultat);
+
+
+    int is_sortp=0;
+    int is_sortq=0;
+    printf("Le Polynome A est trié?\n");
+    char s =' ';
+    char y ='y';
+    char n ='n';
+    while (s!=n && s!=y)
+    {
+        scanf("%c",&s);
+        if (s==y)
+            is_sortp=1;
+        else if(s!=n && s!=y)
+            printf("Tapez y ou n\n");
+
+    }
+    printf("Le Polynome B est trié?\n");
+    s =' ';
+    y ='y';
+    n ='n';
+    while (s!=n && s!=y)
+    {
+        scanf("%c",&s);
+        if (s==y)
+            is_sortq=1;
+        else if(s!=n && s!=y)
+            printf("Tapez y ou n\n");
+
+    }
+    if(!is_sortp)
+        triPolynome(p);
+    if(!is_sortq)
+        triPolynome(q);
 
     while  (i<p->nb_monomes || e<q->nb_monomes)
     {
@@ -395,22 +429,61 @@ Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q) //complexité n+m mar
     return resultat;
 }
 
-Polynome multipliePolynomePolynome(Polynome *p, Polynome *q)
+Polynome multipliePolynomePolynome(Polynome *p, Polynome *q,int *stop)
 {
     Polynome resultat;
-    Polynome tampon;
+    Monome tmp;
     initPolynome(&resultat);
-    resultat.nb_monomes = p->nb_monomes;
-
-    int i;
-    for ( i = 0; i < q->nb_monomes && resultat.nb_monomes<= 50 ; i++) // tant que le compteur est inférieur a la valeur d'arret
+    int i=0,j=0;
+    while ( i < p->nb_monomes && resultat.nb_monomes<= 50) // tant que le compteur est inférieur a la valeur d'arret
     {
-        printf("%d\n", i );
-        resultat.tab_monomes[i].coeff=0;
-        multiplieMonomePolynome(p->tab_monomes[i], q);  
-        resultat = ajoutePolynomePolynome2(&tampon, q);
+        while(j<q->nb_monomes && resultat.nb_monomes<=50)
+        {
+            tmp.degre=q->tab_monomes[j].degre+p->tab_monomes[i].degre;
+            tmp.coeff=q->tab_monomes[j].coeff*p->tab_monomes[i].coeff;
+            j+=1;
+            ajouteMonomePolynome(tmp,&resultat);
+        }
 
+        j=0;
+        i+=1;
+    }
+    if(resultat.nb_monomes>50)
+    {
+        resultat=*p;
+        *stop=1;
+        printf("ERROR : Le resultat contient un nombre de monome supérieur a 50, le poynome est inchangé \n");
     }
 return resultat;
 
+}
+
+Polynome puissancePolynome(Polynome *p,int n)
+{
+    Polynome resultat;
+    initPolynome(&resultat);
+    int i = 1;
+    if (n == 0)
+    {
+        resultat.nb_monomes = 1;
+        resultat.tab_monomes[0].degre = 0;
+        resultat.tab_monomes[0].coeff = 1;
+    }
+
+    if (n >= 1)
+    {
+        resultat= *p;
+    }
+    int stop=0;
+    while(i < n && !stop)
+    {
+        resultat = multipliePolynomePolynome(&resultat, p, &stop);
+        i++; 
+
+    }
+    if(stop)
+    {
+        resultat=*p;
+    }
+    return resultat;
 }

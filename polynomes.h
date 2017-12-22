@@ -46,6 +46,9 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q);
 void triPolynome(Polynome *p);
 void reduitPolynomeTrie(Polynome *p);
 void delete_and_move(Polynome *p,int index );
+Polynome puissancePolynome(Polynome *p,int n);
+Polynome multipliePolynomePolynome(Polynome *p, Polynome *q,int *stop);
+Polynome ajoutePolynomePolynome2(Polynome *p, Polynome *q);
 
 /******************************************************************************/
 /* PROTOTYPES interface_console.c                                             */
@@ -63,6 +66,7 @@ void puissance_polynome(Polynome *A,Polynome *B);
 void reduire_le_polynome(Polynome *A,Polynome *B);
 void trier_polynome(Polynome *A,Polynome *B);
 void dessiner_polynome (Polynome A, Polynome B,int *);
+void ajouter_polynome_a_polynome2(Polynome *A,Polynome *B);
 int quitter();
 
 

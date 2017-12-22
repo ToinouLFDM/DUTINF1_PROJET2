@@ -10,12 +10,13 @@ void afficher_Menu()
 	printf("5.  Multiplier Un Polynome avec le Monome M\n");
 	printf("6.  Ajouter le Monome M a un Polynome\n");
 	printf("7.  Ajouter un Polynome a un Polynome\n");
-	printf("8.  multiplier un Polynome a un polynome \n");
-	printf("9.  Calcul de puissance d'un Polynome\n");
-	printf("10. Trier un Polynome\n");
-	printf("11. Reduire Un Polynome\n");
-	printf("12. Dessiner un Polynome\n");
-	printf("13. Quittez le programme\n");
+	printf("8.  Ajouter un Polynome a un Polynome 2eme version\n");
+	printf("9.  Multiplier un Polynome a un polynome \n");
+	printf("10. Calcul de puissance d'un Polynome\n");
+	printf("11. Trier un Polynome\n");
+	printf("12. Reduire Un Polynome\n");
+	printf("13. Dessiner un Polynome\n");
+	printf("14. Quittez le programme\n");
 }
 
 void Menu()
@@ -53,25 +54,28 @@ void Menu()
 			case 6:
 				ajouter_monome_a_polynome(M,&A,&B);
 				break;
-			case 7:
+			case 7: 
 				ajouter_polynome_a_polynome(&A,&B);
 				break;
 			case 8:
-				multiplier_polynome_par_polynome(&A,&B);
+				ajouter_polynome_a_polynome2(&A,&B);
 				break;
 			case 9:
-				puissance_polynome(&A,&B);
+				multiplier_polynome_par_polynome(&A,&B);
 				break;
 			case 10:
-				trier_polynome(&A,&B);
+				puissance_polynome(&A,&B);
 				break;
 			case 11:
-				reduire_le_polynome(&A,&B);
+				trier_polynome(&A,&B);
 				break;
 			case 12:
-				dessiner_polynome(A,B, &compteur);
+				reduire_le_polynome(&A,&B);
 				break;
 			case 13:
+				dessiner_polynome(A,B, &compteur);
+				break;
+			case 14:
 				done = quitter();
 				break;
 			default:
@@ -168,7 +172,7 @@ void ajouter_polynome_a_polynome(Polynome *A,Polynome *B)
 		printf("Le Polynome valait ->");
 		affichePolynome(*B);
 		printf("\n");
-		ajoutePolynomePolynome(B,A);
+		ajoutePolynomePolynome(A,B);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*B);
 	}
@@ -178,6 +182,38 @@ void ajouter_polynome_a_polynome(Polynome *A,Polynome *B)
 		affichePolynome(*A);
 		printf("\n");
 		ajoutePolynomePolynome(A,B);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*A);
+	}
+	printf("\n");
+}
+void ajouter_polynome_a_polynome2(Polynome *A,Polynome *B)
+{
+	printf("Quel Polynome voulez vous ajouter,l'autre sera modifié (A/B)\n");
+	char s =' ';
+	char a ='A';
+	char b ='B';
+	while (s!=a && s!=b)
+	{
+		scanf("%c",&s);
+		if(s!=a && s!=b)
+			printf("Tapez A ou B\n");
+	}
+	if(s==a)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*B);
+		printf("\n");
+		*B=ajoutePolynomePolynome2(B,A);
+		printf("Le Polynome vaut ->");
+		affichePolynome(*B);
+	}
+	if(s==b)
+	{
+		printf("Le Polynome valait ->");
+		affichePolynome(*A);
+		printf("\n");
+		*A=ajoutePolynomePolynome2(A,B);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*A);
 	}
@@ -200,7 +236,7 @@ void multiplier_polynome_par_polynome(Polynome *A,Polynome *B)
 		printf("Le Polynome valait ->");
 		affichePolynome(*A);
 		printf("\n");
-		//multipliePolynomePolynome(A,B);
+		*A=multipliePolynomePolynome(A,B,0);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*A);
 	}
@@ -209,7 +245,7 @@ void multiplier_polynome_par_polynome(Polynome *A,Polynome *B)
 		printf("Le Polynome valait ->");
 		affichePolynome(*B);
 		printf("\n");
-		//multipliePolynomePolynome(B,A);
+		*B=multipliePolynomePolynome(A,B,0);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*B);
 	}
@@ -235,7 +271,7 @@ void puissance_polynome(Polynome *A,Polynome *B)
 		printf("Le Polynome valait ->");
 		affichePolynome(*A);
 		printf("\n");
-		//puissancePolynome(A,value);
+		*A=puissancePolynome(A,value);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*A);
 	}
@@ -244,7 +280,7 @@ void puissance_polynome(Polynome *A,Polynome *B)
 		printf("Le Polynome valait ->");
 		affichePolynome(*B);
 		printf("\n");
-		//puissancePolynome(B,value);
+		*B=puissancePolynome(B,value);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*B);
 	}
@@ -317,6 +353,7 @@ void reduire_le_polynome(Polynome *A,Polynome *B)
 void rentrer_polynome(Polynome *p)
 {
 	printf("rentrez le nombre de monome voulu\n");
+	scanf("%d",&(p->nb_monomes));
 	while (p->nb_monomes<=0 || p->nb_monomes>50)
 	{
 		scanf("%d",&(p->nb_monomes));
@@ -559,7 +596,7 @@ void dessiner_polynome (Polynome A,Polynome B,int *compteur)
 		create_abs_ord();
 		write_ppm ( filename );
 		printf("Le Polynome A a été dessiné!\n");
-		printf("Pour le voir ouvrrez l'image .ppm");
+		printf("Pour le voir ouvrrez l'image %s",filename);
 		create_image(A);
     	write_ppm ( filename );
 	}
@@ -567,7 +604,7 @@ void dessiner_polynome (Polynome A,Polynome B,int *compteur)
 	{	create_abs_ord();
 		write_ppm ( filename);
 		printf("Le Polynome B a été dessiné!\n");
-		printf("Pour le voir ouvrrez l'image .ppm");
+		printf("Pour le voir ouvrrez l'image %s",filename);
 		create_image(B);
     	write_ppm ( filename );
 	}
