@@ -31,6 +31,10 @@ void affichePolynome(Polynome p)
 {
     int i=0;
     int n = p.nb_monomes;
+    if(n==0)
+    {
+        printf("0\n");
+    }
     while(i<n)
     {
 
@@ -271,7 +275,30 @@ void ajoutePolynomePolynome(Polynome *p, Polynome *q)
         ajouteMonomePolynome(q->tab_monomes[i], p); // on ajoute le monome d'indice i du polynome q au polynome p
     }
 }
+void triPolynome(Polynome *p)
+{
+    int i=0, max=0;
+    int n=p->nb_monomes;
+    for(;i<(n-1);i++)
+    {
+        max=i;
+        int j;
+        for(j=i+1;j<n;j++)
+        {
+            if(p->tab_monomes[j].degre>p->tab_monomes[max].degre)
+                max=j;
+        }
+        if(max!=j)
+        {
+            Monome tmp={p->tab_monomes[i].coeff,p->tab_monomes[i].degre};
+            p->tab_monomes[i].coeff=p->tab_monomes[max].coeff;
+            p->tab_monomes[i].degre=p->tab_monomes[max].degre;
+            p->tab_monomes[max].coeff=tmp.coeff;
+            p->tab_monomes[max].degre=tmp.degre;
+        }
 
+    }
+}
 
 
 
@@ -292,7 +319,7 @@ void reduitPolynomeTrie(Polynome *p)
             p->tab_monomes[i].coeff+=p->tab_monomes[i+1].coeff;//ajoute le coeff du monone suivant au monome actuel
             delete_and_move(p,i+1);//enleve le monmome suivant et decale tout les monomes du tableau
             n-=1;
-            
+            i-=1;
         }
     }
 

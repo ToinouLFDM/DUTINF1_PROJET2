@@ -34,6 +34,7 @@ void Menu()
 		scanf("%d",&action);
 		switch (action)
 		{
+			
 			case 1:
 				rentrer_polynome(&A);
 				break;
@@ -73,6 +74,10 @@ void Menu()
 			case 13:
 				done = quitter();
 				break;
+			default:
+				printf("Rentrez une valeur entre 1 et 13\n");
+				break;
+			
 		}
 		printf("\n");
 	}
@@ -262,7 +267,7 @@ void trier_polynome(Polynome *A,Polynome *B)
 		printf("Le Polynome valait ->");
 		affichePolynome(*A);
 		printf("\n");
-		//triePolynome(A);
+		triPolynome(A);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*A);
 	}
@@ -271,7 +276,7 @@ void trier_polynome(Polynome *A,Polynome *B)
 		printf("Le Polynome valait ->");
 		affichePolynome(*B);
 		printf("\n");
-		//triePolynome(B);
+		triPolynome(B);
 		printf("Le Polynome vaut ->");
 		affichePolynome(*B);
 	}
@@ -312,7 +317,13 @@ void reduire_le_polynome(Polynome *A,Polynome *B)
 void rentrer_polynome(Polynome *p)
 {
 	printf("rentrez le nombre de monome voulu\n");
-	scanf("%d",&(p->nb_monomes));
+	while (p->nb_monomes<=0 || p->nb_monomes>50)
+	{
+		scanf("%d",&(p->nb_monomes));
+		if(p->nb_monomes<=0 || p->nb_monomes>50)
+			printf("votre nombre doit etre compris ente 1 et 50 inclus\n");
+	}
+	
 	int i=0;
 	for(;i<p->nb_monomes;i++)
 	{
